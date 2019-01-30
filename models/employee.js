@@ -59,8 +59,9 @@ module.exports = (sequelize, DataTypes) => {
   });
   Employee.associate = function(models) {
     // associations can be defined here
-    Employee.belongsToMany(models.Leave, {through: 'EmployeeLeaves'})
+    Employee.belongsToMany(models.Leave, {through: models.EmployeeLeave})
     Employee.hasOne(models.Department)
+    Employee.hasMany(models.EmployeeLeave)
   };
 
   Employee.prototype.convertDate = function() {

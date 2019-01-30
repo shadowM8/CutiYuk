@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>Leave Request</title>
+</head>
+
+<body>
+
+    <h2>Leave Request <%- employeeData.name %> </h2>
+    <table class="table table-bordered">
+        <tr>
+            <td>Name :</td>
+            <td><%- employeeData.name %> </td>
+        </tr>
+        <tr>
+                <td>Reason :</td>
+            <td><%- leaveData.reason %></td>
+        </tr>
+            <form action="/manager/leaveRequest/<%= leaveData.id %>" method="POST">
+                <td><input type="radio" name="status" value="Approved" >  Approved</td>
+                <td><input type="radio" name="status" value="Declined" >  Declined</td>
+                
+            
+        </tr>
+        <tr>
+            <td><input type="button" value="submit"></td>
+        </tr>
+            
+        </form>
+        
+    </table>
+    <h2>CHART</h2>
+
+</body>
+
+</html>
