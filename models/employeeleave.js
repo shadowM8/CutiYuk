@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   EmployeeLeave.associate = function(models) {
     // associations can be defined here
-    EmployeeLeave.hasMany(models.Leave)
-    EmployeeLeave.hasMany(models.Employee)
+    // EmployeeLeave.hasMany(models.Leave)
+    // EmployeeLeave.hasMany(models.Employee)
   };
   return EmployeeLeave;
 };
