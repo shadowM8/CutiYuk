@@ -1,6 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const EmployeeLeave = sequelize.define('EmployeeLeave', {
+    id : {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     EmployeeId: DataTypes.INTEGER,
     LeaveId: DataTypes.INTEGER,
     reason: DataTypes.STRING,
@@ -13,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
   EmployeeLeave.associate = function(models) {
     // associations can be defined here
     // EmployeeLeave.hasMany(models.Leave)
-    // EmployeeLeave.hasMany(models.Employee)
+    EmployeeLeave.belongsTo(models.Employee)
+    EmployeeLeave.belongsTo(models.Leave)
   };
   return EmployeeLeave;
 };

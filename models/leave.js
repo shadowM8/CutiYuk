@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Leave.associate = function(models) {
     // associations can be defined here
-    Leave.belongsToMany(models.Employee, {through: 'EmployeeLeaves'})
+    Leave.belongsToMany(models.Employee, {through: models.EmployeeLeave})
+    Leave.hasMany(models.EmployeeLeave)
   };
   return Leave;
 };

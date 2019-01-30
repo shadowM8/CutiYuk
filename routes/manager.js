@@ -17,44 +17,76 @@ router.get('/', (req, res) => {
         })
 })
 
-router.get('/addEmployee',(req,res)=>{
+router.get('/addEmployee', (req, res) => {
     Model.Department.findAll()
-        .then(department=>{
+        .then(department => {
             let message = req.query.message
-            res.render('pages/manager/addEmployeeForm', {department, message})
+            res.render('pages/manager/addEmployeeForm', { department, message })
         })
-        .catch(err=>{
+        .catch(err => {
             res.send(err)
         })
-    
+
 })
 
-router.post('/addEmployee',(req,res)=>{
+router.post('/addEmployee', (req, res) => {
     let newEmployee = req.body
     Model.Employee.create({
-        nik : newEmployee.nik,
-        name : newEmployee.name,
-        role : newEmployee.role,
-        DepartmentId : newEmployee.DepartmentId,
-        timeOff : 12
+        nik: newEmployee.nik,
+        name: newEmployee.name,
+        role: newEmployee.role,
+        DepartmentId: newEmployee.DepartmentId,
+        timeOff: 12
     })
-        .then(()=>{
+        .then(() => {
             let msg = `success add new Employee`
             console.log(msg)
             res.redirect(`/manager/addEmployee/?message=${msg}`)
         })
-        .catch(err=>{
+        .catch(err => {
             res.redirect(`/manager/addEmployee/?message=${err}`)
         })
 })
 
-router.get('/leaveRequest',(req,res)=>{
+router.get('/leaveRequest', (req, res) => {
     Model.EmployeeLeave.findAll({
-        where : {
-            // nanti employeeId dan 
-            EmployeeId : 1
+        include : [Model.Employee, Model.Leave],
+        where: {
+            // nanti employeeId manager dan DepartmentId manager dari session
+            DepartmentId: 1
         }
     })
+        .then(leaveRequestData => {
+            // res.send(leaveRequestData)
+            res.render('pages/manager/leaveRequestPage', { leaveRequestData })
+        })
+        .catch(err => {
+            console.log(err)
+            res.send(err)
+        })
+})
+
+router.get('/leaveRequest/:id', (req, res) => {
+    let leaveData = null
+    Model.EmployeeLeave.findByPk(req.params.id)
+        .then(leaveReasonData => {
+            leaveData = leaveReasonData
+            return leaveReasonData.getEmployee()
+            // res.send(conjunctionData)
+            
+        })
+        .then(employeeData=>{
+            // res.send(leaveData)
+            res.render('pages/manager/leaveRequestForm', {leaveData, employeeData})
+        })
+        .catch(err => {
+            res.send(err)
+        })
+})
+
+router.get('/chart',(req,res)=>{
+    let data = 'data'
+    res.render('pages/manager/chart',{data})
 })
 
 module.exports = router
