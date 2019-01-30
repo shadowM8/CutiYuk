@@ -84,4 +84,9 @@ router.get('/leaveRequest/:id', (req, res) => {
         })
 })
 
+router.get('/chart',(req,res)=>{
+    let data = 'data'
+    res.render('pages/manager/chart',{data})
+})
+
 module.exports = router

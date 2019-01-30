@@ -97,8 +97,7 @@ router.post('/requestLeave', (req, res) => {
     //UPDATE AMBIL DARI SESSION
     .then(data => {
         const nexmo = new Nexmo({
-            apiKey: 'edb7becc',
-            apiSecret: 'afxV5ay4sWajivWC'
+            
         })
 
         const from = 'Nexmo'
