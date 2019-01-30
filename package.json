@@ -21,6 +21,7 @@
     "bcryptjs": "^2.4.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "nexmo": "^2.4.0",
     "pg": "^7.8.0",
     "sequelize": "^4.42.0",
     "sequelize-cli": "^5.4.0"
