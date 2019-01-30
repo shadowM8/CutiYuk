@@ -14,17 +14,17 @@ module.exports = {
     */
    return queryInterface.bulkInsert('Departments',[{
      name : 'Human Capital',
-     ManagerId : 3,
+     EmployeeId : 3,
      createdAt : new Date,
      updatedAt : new Date
    },{
     name : 'Research Development',
-    ManagerId : null,
+    EmployeeId : null,
     createdAt : new Date,
     updatedAt : new Date
   },{
     name : 'Sales and Marketing',
-    ManagerId : null,
+    EmployeeId : null,
     createdAt : new Date,
     updatedAt : new Date
   }], {})
