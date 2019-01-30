@@ -1,8 +1,10 @@
 const router = require('express').Router()
 const Model = require('../models')
+const Nexmo = require('nexmo')
 const Employee = Model.Employee
 let reqSession = 1
 let depId = 1
+let name = 'Budi Mifasol'
 
 router.get('/', (req, res) => {
     res.send('dashboard employee')
@@ -92,9 +94,24 @@ router.post('/requestLeave', (req, res) => {
         delegation: req.body.delegate,
         DepartmentId: req.body.departmentId
     })
+    //UPDATE AMBIL DARI SESSION
     .then(data => {
-        res.send(data)
+        const nexmo = new Nexmo({
+            apiKey: 'edb7becc',
+            apiSecret: 'afxV5ay4sWajivWC'
+        })
+
+        const from = 'Nexmo'
+        const to = '6285714756454'
+        const text = `You got a sick leave request for 2 days from Anton Wibisono. Please login to your account to respond. Thank you. --CutiYuk`
+
+        nexmo.message.sendSms(from, to, text)
+        // return Employee.update()
     })
+    // .then(employee => {
+        //update timeOff employee
+    //     res.redirect('/employee/profile')
+    // })
     .catch(err => {
         res.send(err)
     })
