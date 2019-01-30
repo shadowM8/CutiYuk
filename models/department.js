@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   Department.associate = function(models) {
     // associations can be defined here
     Department.hasMany(models.Employee)
-    Department.hasOne(models.Employee, {as: 'Manager'})
+    Department.belongsTo(models.Employee, {as: 'Manager', targetKey: 'ManagerId'})
   };
   return Department;
 };
