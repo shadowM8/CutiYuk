@@ -1,6 +1,7 @@
 'use strict';
 const bcryptHash = require('../helpers/bcrypt')
 module.exports = (sequelize, DataTypes) => {
+  const convertDate = require('../helpers/getMonthAndYear')
   const Employee = sequelize.define('Employee', {
     nik: DataTypes.STRING,
     name: DataTypes.STRING,
@@ -61,5 +62,10 @@ module.exports = (sequelize, DataTypes) => {
     Employee.belongsToMany(models.Leave, {through: 'EmployeeLeaves'})
     Employee.hasOne(models.Department)
   };
+
+  Employee.prototype.convertDate = function() {
+    return convertDate(this.createdAt)
+  }
+
   return Employee;
 };
