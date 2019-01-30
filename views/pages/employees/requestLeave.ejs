@@ -26,7 +26,7 @@
                 <select class="form-control" id="exampleFormControlSelect1" name="delegate">
                     <option selected>SELECT</option>
                     <% names.forEach(n => { %>
-                        <option value="<%= n.id %>"><%= n.type %></option>
+                        <option value="<%= n.id %>"><%= n.name %></option>
                     <% }) %>
                 </select>
             </div>
@@ -34,7 +34,7 @@
             <div class="form-group row">
                 <label for="example-date-input" class="col-2 col-form-label">Date</label>
                 <div class="col-10">
-                    <input class="form-control" type="date" value="2011-08-19" id="example-date-input" name="date">
+                    <input class="form-control" type="date" value="yyy-mm-dd" id="example-date-input" name="date">
                 </div>
             </div>
 
@@ -53,7 +53,9 @@
                 <label for="exampleFormControlTextarea1">Reason:</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="reason"></textarea>
             </div>
+            <input type="hidden" name="departmentId" value="<%= department.id %>" readonly>
             <button type="submit" class="btn btn-primary">Submit</button>
+
         </form>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
