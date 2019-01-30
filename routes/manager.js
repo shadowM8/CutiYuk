@@ -51,10 +51,18 @@ router.post('/addEmployee',(req,res)=>{
 router.get('/leaveRequest',(req,res)=>{
     Model.EmployeeLeave.findAll({
         where : {
-            // nanti employeeId dan 
-            EmployeeId : 1
+            // nanti employeeId manager dan DepartmentId manager dari session
+            EmployeeId : 1,
+            DepartmentId : 1
         }
     })
+        .then(leaveRequestData=>{
+            res.send(leaveRequestData)
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+        
 })
 
 module.exports = router
