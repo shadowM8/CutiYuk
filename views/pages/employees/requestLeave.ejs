@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Request Leave</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    <h1>Request Leave:</h1>
+        <form action="/employee/requestLeave" method="POST">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Leave Type:</label>
+                <select class="form-control" id="exampleFormControlSelect1" name="type">
+                    <option selected>SELECT</option>
+                    <% types.forEach(t => { %>
+                        <option value="<%= t.id %>"><%= t.type %></option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Delegate To:</label>
+                <select class="form-control" id="exampleFormControlSelect1" name="delegate">
+                    <option selected>SELECT</option>
+                    <% names.forEach(n => { %>
+                        <option value="<%= n.id %>"><%= n.type %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="form-group row">
+                <label for="example-date-input" class="col-2 col-form-label">Date</label>
+                <div class="col-10">
+                    <input class="form-control" type="date" value="2011-08-19" id="example-date-input" name="date">
+                </div>
+            </div>
+
+            <!-- starting date -->
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Duration:</label>
+                <select class="form-control" id="exampleFormControlSelect1" name="duration">
+                        <option selected>SELECT</option>
+                    <% for(let i = 0; i < 5; i++) { %>
+                        <option value="<%= i + 1 %>"><%= i + 1 %></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Reason:</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="reason"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+</html>
