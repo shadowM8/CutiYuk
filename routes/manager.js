@@ -13,7 +13,7 @@ router.get('/', checkManager, (req, res) => {
         }
     })
         .then(manager => {
-            res.render('pages/manager/managerDashboard', { manager, role: req.session.userLogin.role })
+            res.render('pages/manager/managerDashboard', { manager, role: req.session.userLogin.role, isLogin: req.session.userLogin})
         })
         .catch(err => {
             res.send(err)
@@ -24,7 +24,7 @@ router.get('/addEmployee', checkManager, (req, res) => {
     Model.Department.findAll()
         .then(department => {
             let message = req.query.message
-            res.render('pages/manager/addEmployeeForm', { department, message , role: req.session.userLogin.role })
+            res.render('pages/manager/addEmployeeForm', { department, message , role: req.session.userLogin.role, isLogin: req.session.userLogin })
         })
         .catch(err => {
             res.send(err)
@@ -50,7 +50,7 @@ router.post('/addEmployee', checkManager, (req, res) => {
         })
 })
 
-router.get('/leaveRequest',checkManager, (req, res) => {
+router.get('/leaveRequest', checkManager, (req, res) => {
     Model.EmployeeLeave.findAll({
         include: [Model.Employee, Model.Leave],
         where: {
@@ -58,14 +58,14 @@ router.get('/leaveRequest',checkManager, (req, res) => {
         }
     })
         .then(leaveRequestData => {
-            res.render('pages/manager/leaveRequestPage', { leaveRequestData , role: req.session.userLogin.role })
+            res.render('pages/manager/leaveRequestPage', { leaveRequestData , role: req.session.userLogin.role, isLogin: req.session.userLogin })
         })
         .catch(err => {
             res.send(err)
         })
 })
 
-router.get('/leaveRequest/:conjunctionId',checkManager, (req, res) => {
+router.get('/leaveRequest/:conjunctionId', checkManager, (req, res) => {
     let leaveData = null
     let employeeData = null
     Model.EmployeeLeave.findByPk(req.params.conjunctionId)
@@ -94,7 +94,9 @@ router.get('/leaveRequest/:conjunctionId',checkManager, (req, res) => {
             employeeData, 
             x : xData, 
             y : yData,
-            err : err
+            err : err,
+            role : req.session.userLogin.role,
+            isLogin : req.session.userLogin
         })
     })
     .catch(err => {
@@ -102,7 +104,7 @@ router.get('/leaveRequest/:conjunctionId',checkManager, (req, res) => {
     })
 })
 
-router.post('/leaveRequest/:conjunctionId', (req, res) => {
+router.post('/leaveRequest/:conjunctionId', checkManager, (req, res) => {
     let timeOffRequested;
     let duration = 0
     let status = req.body.status
