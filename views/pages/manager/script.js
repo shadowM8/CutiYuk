@@ -1,34 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-    <style>
-        .wrapper {
-            max-width: 300px;
-            
-            margin:50px auto;
-        }
-    </style>
-    <title>Document</title>
-</head>
-<body>
-    <h1> tes</h1>
-    
-    <div class="wrapper">
-            <canvas id="myChart" width="400" height="400"></canvas>
-    </div>
-    
-    <script >
-            
-        var ctx = document.getElementById("myChart");
-        var z = <%= JSON.stringify(angka) %>
-        // var z = [1,2,3,4]
+var ctx = document.getElementById("myChart");
+        // let angka = require('../../../routes/manager').angka
+        var z = [1,2,3,4]
+        // var z = angka
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -65,8 +38,4 @@
             }
         });
         // myChart.data.datasets[0].data.push(angka)
-        </script>
-    
-</body>
-</html>
-
+        
