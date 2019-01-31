@@ -7,7 +7,7 @@ const Nexmo = require('nexmo')
 const Employee = Model.Employee
 
 router.get('/',Middleware, (req, res) => {
-    res.render('pages/employees/dashBoard',{role : req.session.userLogin.role})
+    res.render('pages/employees/dashBoard',{role : req.session.userLogin.role, isLogin: req.session.userLogin})
 })
 
 router.get('/profile', Middleware, (req, res) => {
@@ -17,7 +17,8 @@ router.get('/profile', Middleware, (req, res) => {
         res.render('pages/employees/profile', {
             employee: employee,
             convertDate: dateConverted,
-            role : req.session.userLogin.role
+            role : req.session.userLogin.role,
+            isLogin: req.session.userLogin
         })
     })
     .catch(err => {
@@ -30,7 +31,8 @@ router.get('/profile/edit', Middleware, (req, res) => {
     .then(employee => {
         res.render('pages/employees/editProfile', {
             employee: employee,
-            role : req.session.userLogin.role
+            role : req.session.userLogin.role,
+            isLogin: req.session.userLogin
         })
     })
     .catch(err => {
@@ -42,7 +44,8 @@ router.post('/profile/edit', Middleware, (req, res) => {
     Employee.update(req.body, {
         where: {
             id: req.session.userLogin.id,
-            role : req.session.userLogin.role
+            role : req.session.userLogin.role,
+            isLogin: req.session.userLogin
         }
     })
     .then(update => {
@@ -79,7 +82,8 @@ router.get('/requestLeave', Middleware, (req, res) => {
             types: leaveReasons,
             department: dep,
             names: employeesName,
-            role : req.session.userLogin.role
+            role : req.session.userLogin.role,
+            isLogin: req.session.userLogin
         })
     })
     .catch(err => {
@@ -89,6 +93,7 @@ router.get('/requestLeave', Middleware, (req, res) => {
 
 router.post('/requestLeave', Middleware, (req, res) => {
     //masukkin departmentID ketika submit
+    let requestData;
     Model.EmployeeLeave.create({
         EmployeeId: req.session.userLogin.id,
         LeaveId: req.body.type,
@@ -99,16 +104,20 @@ router.post('/requestLeave', Middleware, (req, res) => {
         DepartmentId: req.session.userLogin.DepartmentId
     })
     .then(data => {
-        // const nexmo = new Nexmo({
-        //     apiKey: process.env.APIKEY,
-        //     apiSecret: process.env.APISECRET
-        // })
+        requestData = data
+        return Model.Leave.findByPk(data.LeaveId)
+    })
+    .then(leaveType => {
+        const nexmo = new Nexmo({
+            apiKey: process.env.APIKEY,
+            apiSecret: process.env.APISECRET
+        })
 
-        // const from = 'Nexmo'
-        // const to = '6285714756454'
-        // const text = `You got a sick leave request for ${data.duration} days from ${req.session.name}. Please login to your account to respond. Thank you. --CutiYuk`
+        const from = 'Nexmo'
+        const to = '6285714756454'
+        const text = `You got a ${leaveType.type} request for ${requestData.duration} days from ${req.session.userLogin.name}. Please login to your account to respond. Thank you. --CutiYuk`
 
-        // nexmo.message.sendSms(from, to, text)
+        nexmo.message.sendSms(from, to, text)
         res.redirect('/employee/profile')
     })
     .catch(err => {
