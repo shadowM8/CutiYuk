@@ -5,18 +5,18 @@ const Nexmo = require('nexmo');
 const dotenv = require('dotenv').config()
 const checkManager = require('../helpers/checkManager')
 
-router.get('/', (req, res) => {
+router.get('/', checkManager, (req, res) => {
     Employee.findOne({
         where: {
             // id: req.session.userLogin.id,
-            id : 3,
-            role: 'manager'
+            id : req.session.userLogin.id,
+            role: req.session.userLogin.role
         }
     })
     .then(manager => {
         res.render('pages/manager/managerDashboard', { 
             manager, role: req.session.userLogin.role, 
-            isLogin: true
+            isLogin: req.session.userLogin
         })
     })
     .catch(err => {
@@ -24,14 +24,14 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/addEmployee', (req, res) => {
+router.get('/addEmployee', checkManager, (req, res) => {
     Model.Department.findAll()
         .then(department => {
             let message = req.query.message
             res.render('pages/manager/addEmployeeForm', { 
                 department, message, 
-                role: "manager", 
-                isLogin: true 
+                role: req.session.userLogin.role, 
+                isLogin: req.session.userLogin 
             })
         })
         .catch(err => {
@@ -39,7 +39,7 @@ router.get('/addEmployee', (req, res) => {
         })
 })
 
-router.post('/addEmployee', (req, res) => {
+router.post('/addEmployee', checkManager, (req, res) => {
     let newEmployee = req.body
     Model.Employee.create({
         nik: newEmployee.nik,
@@ -62,8 +62,8 @@ router.get('/leaveRequest', checkManager, (req, res) => {
     Model.EmployeeLeave.findAll({
         include: [Model.Employee, Model.Leave],
         where: {
-            // DepartmentId: req.session.userLogin.DepartmentId
-            DepartmentId: 1
+            DepartmentId: req.session.userLogin.DepartmentId
+            // DepartmentId: 1
         }
     })
         .then(leaveRequestData => {
