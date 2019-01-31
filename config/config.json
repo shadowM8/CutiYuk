@@ -1,0 +1,18 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": null,
+    "database": "database_cutiYuk",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "port":5430
+  },
+  "production": {
+    "username": "jrwaqauzckaxga",
+    "password": "aab8707df8b9c3fe11e5c38485fe3e67d7741a9f13b0b43cf106c62034f1d6ef",
+    "database": "d52qpe6utn178k",
+    "host": "ec2-54-227-246-152.compute-1.amazonaws.com",
+    "dialect": "postgres",
+    "port":5432
+  }
+}
