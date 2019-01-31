@@ -32,8 +32,10 @@
             <th><%- leaveData.reason %></th>
         </tr>
             <form action="/manager/leaveRequest/<%= leaveData.id %>" method="POST">
-                <td ><input type="radio" name="status" value="Approved" >  Approved 
-                <input type="radio" name="status" value="Declined" >  Declined</td>
+
+                <td><input type="radio" name="status" value="Approved" >  Approved</td>
+                <td><input type="radio" name="status" value="Declined" >  Declined</td>
+
         </tr>
         <tr>
             <td><input type="submit" value="Submit"></td>
