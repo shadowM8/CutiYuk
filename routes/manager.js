@@ -2,15 +2,16 @@ const router = require('express').Router()
 const Model = require('../models')
 const Employee = Model.Employee
 const dotenv = require('dotenv').config()
+const checkManager = require('../helpers/checkManager')
 
-router.get('/', (req, res) => {
+router.get('/', checkManager, (req, res) => {
     Employee.findOne({
         where: {
-            role: 'manager'
+            id: req.session.userLogin.id,
+            role: req.session.userLogin.role
         }
-    }) //nantinya akan mengambil nilai dari session untuk mengakses data manager
+    })
         .then(manager => {
-            // res.send(manager)
             res.render('pages/manager/managerDashboard', { manager })
         })
         .catch(err => {
@@ -18,7 +19,7 @@ router.get('/', (req, res) => {
         })
 })
 
-router.get('/addEmployee', (req, res) => {
+router.get('/addEmployee', checkManager, (req, res) => {
     Model.Department.findAll()
         .then(department => {
             let message = req.query.message
@@ -27,31 +28,28 @@ router.get('/addEmployee', (req, res) => {
         .catch(err => {
             res.send(err)
         })
-
 })
 
-router.post('/addEmployee', (req, res) => {
+router.post('/addEmployee', checkManager, (req, res) => {
     let newEmployee = req.body
     Model.Employee.create({
         nik: newEmployee.nik,
         name: newEmployee.name,
         role: newEmployee.role,
         DepartmentId: newEmployee.DepartmentId,
-        timeOff: 12
+        timeOff: 12,
+        gender: newEmployee.gender
     })
-        .then(() => {
-            let msg = `success add new Employee`
-            console.log(msg)
-            res.redirect(`/manager/addEmployee/?message=${msg}`)
-        })
-        .catch(err => {
-            res.redirect(`/manager/addEmployee/?message=${err}`)
-        })
+    .then(() => {
+        let msg = `success add new Employee`
+        res.redirect(`/manager/addEmployee/?message=${msg}`)
+    })
+    .catch(err => {
+        res.redirect(`/manager/addEmployee/?message=${err}`)
+    })
 })
 
-
-
-router.get('/leaveRequest', (req, res) => {
+router.get('/leaveRequest', checkManager, (req, res) => {
     Model.EmployeeLeave.findAll({
         include : [Model.Employee, Model.Leave],
         where: {
@@ -60,25 +58,22 @@ router.get('/leaveRequest', (req, res) => {
         }
     })
         .then(leaveRequestData => {
-            // res.send(leaveRequestData)
             res.render('pages/manager/leaveRequestPage', { leaveRequestData })
         })
         .catch(err => {
-            console.log(err)
             res.send(err)
         })
 })
 
-router.get('/leaveRequest/:id', (req, res) => {
+router.get('/leaveRequest/:id', checkManager, (req, res) => {
     let leaveData = null
     let employeeData = null
     Model.EmployeeLeave.findByPk(req.params.id)
         .then(leaveReasonData => {
             leaveData = leaveReasonData
-            return leaveReasonData.getEmployee()
+            return leaveReasonData.getEmployee() 
         })
-        .then(employee=>{
-            employeeData = employee
+        .then(employeeData=>{
             res.render('pages/manager/leaveRequestForm', {leaveData, employeeData})
         })
         .catch(err => {
@@ -86,11 +81,11 @@ router.get('/leaveRequest/:id', (req, res) => {
         })
 })
 
-router.get('/chart',(req,res)=>{
-    // if (dotenv.error) throw dotenv.error
-    // console.log(dotenv)
-    let angka = [1,2,3,4]
-    res.render('pages/manager/chart',{angka})
-})
+// router.get('/chart',(req,res)=>{
+//     if (dotenv.error) throw dotenv.error
+//     // console.log(dotenv)
+//     let data = process.env.SECRET
+//     res.render('pages/manager/chart',{data})
+// })
 
 module.exports = router

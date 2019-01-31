@@ -22,5 +22,6 @@ module.exports = (sequelize, DataTypes) => {
     EmployeeLeave.belongsTo(models.Employee)
     EmployeeLeave.belongsTo(models.Leave)
   };
+
   return EmployeeLeave;
 };

@@ -6,8 +6,13 @@ module.exports = (sequelize, DataTypes) => {
     nik: DataTypes.STRING,
     name: DataTypes.STRING,
     password: {
+<<<<<<< HEAD
       defaultValue : '12345',
       type :DataTypes.STRING
+=======
+      type: DataTypes.STRING,
+      defaultValue: '12345'
+>>>>>>> 550e4602c5ec6cb53ea8d41082fdc4b380f12c63
     },
     role: DataTypes.STRING,
     timeOff: DataTypes.INTEGER,
@@ -43,8 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       beforeValidate : function(employee) {
         let elemen = employee.dataValues.name.split(' ')
         let random = Math.floor(Math.random() * (1000 - 100 + 1) + 100)
-        employee.dataValues.email = `${elemen[0]}${random}@mail.com`
-        return (employee.email)
+        employee.email = `${elemen[0]}${random}@mail.com`
       },
       beforeCreate : function(employee){
         return bcryptHash(employee.password)
@@ -52,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
               employee.password = hash
             })
             .catch(err=>{
-              console.log(err)
+              throw err
             })
       }
     }
