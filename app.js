@@ -7,6 +7,7 @@ const employee = require('./routes/employee')
 const manager = require('./routes/manager')
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({extended: false}))
+const port = process.env.PORT || 3000
 
 app.use(session({
   secret: process.env.secretsauce
@@ -85,6 +86,6 @@ app.get('/logout', (req, res) => {
     })
 })
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('listening to port 3000')
 })
