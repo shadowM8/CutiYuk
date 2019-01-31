@@ -38,7 +38,7 @@ router.get('/addEmployee', checkManager, (req, res) => {
         })
 })
 
-router.post('/addEmployee', checkManager, (req, res) => {
+router.post('/addEmployee', (req, res) => {
     let newEmployee = req.body
     Model.Employee.create({
         nik: newEmployee.nik,
