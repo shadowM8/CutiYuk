@@ -49,6 +49,8 @@ router.post('/addEmployee', (req, res) => {
         })
 })
 
+
+
 router.get('/leaveRequest', (req, res) => {
     Model.EmployeeLeave.findAll({
         include : [Model.Employee, Model.Leave],
@@ -69,15 +71,14 @@ router.get('/leaveRequest', (req, res) => {
 
 router.get('/leaveRequest/:id', (req, res) => {
     let leaveData = null
+    let employeeData = null
     Model.EmployeeLeave.findByPk(req.params.id)
         .then(leaveReasonData => {
             leaveData = leaveReasonData
             return leaveReasonData.getEmployee()
-            // res.send(conjunctionData)
-            
         })
-        .then(employeeData=>{
-            // res.send(leaveData)
+        .then(employee=>{
+            employeeData = employee
             res.render('pages/manager/leaveRequestForm', {leaveData, employeeData})
         })
         .catch(err => {
@@ -86,10 +87,10 @@ router.get('/leaveRequest/:id', (req, res) => {
 })
 
 router.get('/chart',(req,res)=>{
-    if (dotenv.error) throw dotenv.error
-    console.log(dotenv)
-    let data = process.env.SECRET
-    res.render('pages/manager/chart',{data})
+    // if (dotenv.error) throw dotenv.error
+    // console.log(dotenv)
+    let angka = [1,2,3,4]
+    res.render('pages/manager/chart',{angka})
 })
 
 module.exports = router

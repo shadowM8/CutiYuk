@@ -12,9 +12,9 @@
 </head>
 
 <body>
-
+    <div class="container">
     <h2>Leave Request <%- employeeData.name %> </h2>
-    <table class="table table-bordered">
+    <table class="table table-striped">
         <tr>
             <td>Name :</td>
             <td><%- employeeData.name %> </td>
@@ -24,10 +24,8 @@
             <td><%- leaveData.reason %></td>
         </tr>
             <form action="/manager/leaveRequest/<%= leaveData.id %>" method="POST">
-                <td><input type="radio" name="status" value="Approved" >  Approved</td>
-                <td><input type="radio" name="status" value="Declined" >  Declined</td>
-                
-            
+                <td ><input type="radio" name="status" value="Approved" >  Approved 
+                <input type="radio" name="status" value="Declined" >  Declined</td>
         </tr>
         <tr>
             <td><input type="button" value="submit"></td>
@@ -36,9 +34,11 @@
         </form>
         
     </table>
-    <h2>CHART</h2>
-    
-
+    <h2>Leave Record of Employee <%- employeeData.name %></h2>
+    <div class="wrapper">
+        <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
+    </div>
+</div>
 </body>
 
 </html>

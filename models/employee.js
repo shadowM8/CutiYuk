@@ -5,7 +5,10 @@ module.exports = (sequelize, DataTypes) => {
   const Employee = sequelize.define('Employee', {
     nik: DataTypes.STRING,
     name: DataTypes.STRING,
-    password: DataTypes.STRING,
+    password: {
+      defaultValue : '12345',
+      type :DataTypes.STRING
+    },
     role: DataTypes.STRING,
     timeOff: DataTypes.INTEGER,
     DepartmentId: DataTypes.INTEGER,
@@ -44,9 +47,6 @@ module.exports = (sequelize, DataTypes) => {
         return (employee.email)
       },
       beforeCreate : function(employee){
-        let elemen = employee.name.split(' ')
-        employee.dataValues.password = `pass${elemen[0]}`
-        console.log(employee.dataValues.password)
         return bcryptHash(employee.password)
             .then(hash=>{
               employee.password = hash

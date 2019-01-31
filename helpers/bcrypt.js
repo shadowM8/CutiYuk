@@ -7,11 +7,9 @@ function bcryptHash(password){
             return bcrypt.hash(password,salt)
           })
           .then(hash=>{
-            // user.password = hash
             resolve(hash)
           })
           .catch(err=>{
-            // console.log(err)
             reject(err)
           })
     })
