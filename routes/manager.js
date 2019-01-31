@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const Model = require('../models')
 const Employee = Model.Employee
+const dotenv = require('dotenv').config()
 
 router.get('/', (req, res) => {
     Employee.findOne({
@@ -85,7 +86,9 @@ router.get('/leaveRequest/:id', (req, res) => {
 })
 
 router.get('/chart',(req,res)=>{
-    let data = 'data'
+    if (dotenv.error) throw dotenv.error
+    console.log(dotenv)
+    let data = process.env.SECRET
     res.render('pages/manager/chart',{data})
 })
 
