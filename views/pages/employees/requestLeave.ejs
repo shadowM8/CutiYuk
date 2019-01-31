@@ -11,6 +11,7 @@
         <%- include("../../partials/navbarGeneral.ejs") %>
         <div class="container">
     <h1>Request Leave:</h1>
+        <h5 style="color:red"><%= err %></h5>
         <form action="/employee/requestLeave" method="POST">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Leave Type:</label>
@@ -34,7 +35,7 @@
             <div class="form-group row">
                 <label for="example-date-input" class="col-2 col-form-label">Date</label>
                 <div class="col-10">
-                    <input class="form-control" type="date" value="yyy-mm-dd" id="example-date-input" name="date">
+                    <input class="form-control" type="date" value="yyyy-mm-dd" id="example-date-input" name="date">
                 </div>
             </div>
 

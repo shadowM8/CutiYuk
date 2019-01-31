@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       validate : {
         isEmail : {
-          args :true,
+          args : true,
           msg : "Validation error : email format is incorrect"
         },
         isUnique: function(value) {
@@ -26,14 +26,14 @@ module.exports = (sequelize, DataTypes) => {
                 email: value
               }
             })
-              .then(function(result){
-                if (result) {
-                  if(result.id != self.id)
-                  throw (`email is already used`)
-                }})
-              .catch((err) => {
-                throw (err)
-              })
+            .then(function(result){
+              if (result) {
+                if(result.id != self.id)
+                throw (`email is already used`)
+              }})
+            .catch((err) => {
+              throw (err)
+            })
         }
       }
     },
@@ -58,6 +58,24 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
+
+  Employee.getLastName = function(id){
+    let lastName;
+    return new Promise((resolve,reject)=>{
+      Employee.findByPk(id)
+      .then(employee=>{
+        lastName = employee.name.split(' ')
+        if (employee.gender === 'male') resolve(`Mr.${lastName[lastName.length-1]}`)
+        else if(employee.gender === 'female') resolve (`Ms.${lastName[lastName.length-1]}`)
+        else resolve (`${lastName[lastName.length-1]}`)
+      })
+      .catch(err=>{
+        reject(err)
+      })
+    })
+    
+  }
+  
   Employee.associate = function(models) {
     // associations can be defined here
     Employee.belongsToMany(models.Leave, {through: models.EmployeeLeave})
@@ -71,3 +89,4 @@ module.exports = (sequelize, DataTypes) => {
 
   return Employee;
 };
+

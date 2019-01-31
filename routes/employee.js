@@ -7,7 +7,14 @@ const Nexmo = require('nexmo')
 const Employee = Model.Employee
 
 router.get('/',Middleware, (req, res) => {
-    res.render('pages/employees/dashBoard',{role : req.session.userLogin.role, isLogin: req.session.userLogin})
+    Employee.getLastName(req.session.userLogin.id)
+    .then(lastName=>{
+        res.render('pages/employees/dashBoard',{role : req.session.userLogin.role, isLogin: req.session.userLogin, lastName})
+    })
+    .catch(err=>{
+        res.send(err)
+    })
+    
 })
 
 router.get('/profile', Middleware, (req, res) => {
@@ -32,7 +39,8 @@ router.get('/profile/edit', Middleware, (req, res) => {
         res.render('pages/employees/editProfile', {
             employee: employee,
             role : req.session.userLogin.role,
-            isLogin: req.session.userLogin
+            isLogin: req.session.userLogin,
+            err: req.query.err
         })
     })
     .catch(err => {
@@ -48,11 +56,11 @@ router.post('/profile/edit', Middleware, (req, res) => {
             isLogin: req.session.userLogin
         }
     })
-    .then(update => {
+    .then(() => {
         res.redirect('/employee/profile')
     })
     .catch(err => {
-        res.send(err)
+        res.redirect(`/employee/profile/edit?err=${err.errors[0].message}`)
     })
 })
 
@@ -83,7 +91,8 @@ router.get('/requestLeave', Middleware, (req, res) => {
             department: dep,
             names: employeesName,
             role : req.session.userLogin.role,
-            isLogin: req.session.userLogin
+            isLogin: req.session.userLogin,
+            err: req.query.err
         })
     })
     .catch(err => {
@@ -92,7 +101,6 @@ router.get('/requestLeave', Middleware, (req, res) => {
 })
 
 router.post('/requestLeave', Middleware, (req, res) => {
-    //masukkin departmentID ketika submit
     let requestData;
     Model.EmployeeLeave.create({
         EmployeeId: req.session.userLogin.id,
@@ -121,7 +129,7 @@ router.post('/requestLeave', Middleware, (req, res) => {
         res.redirect('/employee/profile')
     })
     .catch(err => {
-        res.send(err)
+        res.redirect(`/employee/requestLeave?err=${err}`)
     })
 })
 
