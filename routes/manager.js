@@ -68,41 +68,74 @@ router.get('/leaveRequest', (req, res) => {
 
 router.get('/leaveRequest/:conjunctionId', (req, res) => {
     let leaveData = null
+    let employeeData = null
     Model.EmployeeLeave.findByPk(req.params.conjunctionId)
-        .then(leaveReasonData => {
-            leaveData = leaveReasonData
-            return leaveReasonData.getEmployee() 
+    .then(leaveReasonData => {
+        leaveData = leaveReasonData
+        return leaveReasonData.getEmployee() 
+    })
+    .then(employee=>{
+        employeeData = employee
+        return employee.getEmployeeLeaves({
+            where : {
+                status : "Pending"
+            }
+        })       
+    })
+    .then(allEmployeeleave=>{
+        let xData = []
+        let yData = []
+        allEmployeeleave.forEach(leave=>{
+            xData.push(leave.reason)
+            yData.push(leave.duration)
         })
-        .then(employeeData=>{
-            res.render('pages/manager/leaveRequestForm', {leaveData, employeeData})
+        let err = req.query.err
+        res.render('pages/manager/leaveRequestForm', {
+            leaveData, 
+            employeeData, 
+            x : xData, 
+            y : yData,
+            err : err
         })
-        .catch(err => {
-            res.send(err)
-        })
+    })
+    .catch(err => {
+        res.send(err)
+    })
 })
 
 router.post('/leaveRequest/:conjunctionId', (req, res) => {
+    let timeOffRequested;
     let duration = 0
-    Model.EmployeeLeave.update(req.body, {
-        where: {
-            id: req.params.conjunctionId
+    let status = req.body.status
+    let employeeData;
+    Model.EmployeeLeave.findByPk(req.params.conjunctionId)
+    .then(leaveData => {
+        timeOffRequested = leaveData.duration
+        return leaveData.getEmployee()
+    })
+    .then(employee => {
+        if (employee.timeOff < timeOffRequested) {
+            throw `Time off request can not be taken due to employee's time off quota.`
+        } else {
+            employeeData = employee
+            Model.EmployeeLeave.update(req.body, {
+                    where: {
+                        id: req.params.conjunctionId
+                    }, 
+                    individualHooks: true
+                }
+            )
         }
     })
     .then(() => {
         //KIRIM SMS DI SINI
-        return Model.EmployeeLeave.findByPk(req.params.conjunctionId)
-    })
-    .then(employeeAskForLeave => {
-        if (employeeAskForLeave.status === 'Approved' && employeeAskForLeave.LeaveId === 2) {
-            duration = employeeAskForLeave.duration
+        if (timeOffRequested.status === 'Approved' && timeOffRequested.LeaveId === 2) {
+            duration = timeOffRequested.duration
         }
-        return Employee.findByPk(employeeAskForLeave.EmployeeId)
-    })
-    .then(employeeData => {
         let timeOffLeft = employeeData.timeOff - duration
-        Employee.update({
-            timeOff: timeOffLeft
-        }, {
+        return Employee.update({
+            timeOff: timeOffLeft }, 
+            {   
             where: {
                 id: employeeData.id
             },
@@ -113,7 +146,7 @@ router.post('/leaveRequest/:conjunctionId', (req, res) => {
         res.redirect('/manager/leaveRequest')
     })
     .catch(err => {
-        res.send(err)
+        res.redirect(`/manager/leaveRequest/${req.params.conjunctionId}?err=${err}`)
     })
 })
 
