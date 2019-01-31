@@ -23,7 +23,7 @@ router.get('/', checkManager, (req, res) => {
     })
 })
 
-router.get('/addEmployee', checkManager, (req, res) => {
+router.get('/addEmployee', (req, res) => {
     Model.Department.findAll()
         .then(department => {
             let message = req.query.message
