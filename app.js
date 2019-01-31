@@ -48,7 +48,9 @@ app.post('/login', (req, res) => {
                 gender: emp.gender,
                 createdAt: emp.createdAt
             }
-            res.send(req.session)
+            // res.send(req.session)
+            if (emp.role === 'manager') res.redirect('/manager/')
+            else res.redirect('/employee')
         }
         
     })
@@ -63,7 +65,8 @@ app.use('/manager', manager)
 app.get('/', (req, res) => {
     let err = req.query.err
     res.render('pages/homepage', {
-        err: err
+        err: err,
+        role : null
     })
 })
 
