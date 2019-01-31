@@ -54,7 +54,7 @@ router.get('/leaveRequest', checkManager, (req, res) => {
         include : [Model.Employee, Model.Leave],
         where: {
             // nanti employeeId manager dan DepartmentId manager dari session
-            DepartmentId: 1
+            DepartmentId: req.session.userLogin.DepartmentId
         }
     })
         .then(leaveRequestData => {
@@ -65,20 +65,40 @@ router.get('/leaveRequest', checkManager, (req, res) => {
         })
 })
 
-router.get('/leaveRequest/:id', checkManager, (req, res) => {
+router.get('/leaveRequest/:conjunctionId', checkManager, (req, res) => {
     let leaveData = null
     let employeeData = null
-    Model.EmployeeLeave.findByPk(req.params.id)
+    Model.EmployeeLeave.findByPk(req.params.conjunctionId)
         .then(leaveReasonData => {
             leaveData = leaveReasonData
             return leaveReasonData.getEmployee() 
         })
-        .then(employeeData=>{
-            res.render('pages/manager/leaveRequestForm', {leaveData, employeeData})
+        .then(employee=>{
+            employeeData = employee
+            return employee.getEmployeeLeaves({
+                where : {
+                    status : "Pending"
+                }
+            })
+            
+        })
+        .then(allEmployeeleave=>{
+            // res.send(allEmployeeleave)
+            let xData = []
+            let yData = []
+            allEmployeeleave.forEach(leave=>{
+                xData.push(leave.reason)
+                yData.push(leave.duration)
+            })
+            res.render('pages/manager/leaveRequestForm', {leaveData, employeeData, x : xData, y : yData})
         })
         .catch(err => {
             res.send(err)
         })
+})
+
+router.post('/leaveRequest/:conjunctionId', checkManager, (req,res)=>{
+
 })
 
 // router.get('/chart',(req,res)=>{

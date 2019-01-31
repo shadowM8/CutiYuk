@@ -6,13 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     nik: DataTypes.STRING,
     name: DataTypes.STRING,
     password: {
-<<<<<<< HEAD
-      defaultValue : '12345',
-      type :DataTypes.STRING
-=======
       type: DataTypes.STRING,
       defaultValue: '12345'
->>>>>>> 550e4602c5ec6cb53ea8d41082fdc4b380f12c63
     },
     role: DataTypes.STRING,
     timeOff: DataTypes.INTEGER,
