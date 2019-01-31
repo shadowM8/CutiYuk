@@ -8,14 +8,15 @@ const checkManager = require('../helpers/checkManager')
 router.get('/', (req, res) => {
     Employee.findOne({
         where: {
-            id: req.session.userLogin.id,
-            role: req.session.userLogin.role
+            // id: req.session.userLogin.id,
+            id : 3,
+            role: 'manager'
         }
     })
     .then(manager => {
         res.render('pages/manager/managerDashboard', { 
             manager, role: req.session.userLogin.role, 
-            isLogin: req.session.userLogin
+            isLogin: true
         })
     })
     .catch(err => {
@@ -29,8 +30,8 @@ router.get('/addEmployee', (req, res) => {
             let message = req.query.message
             res.render('pages/manager/addEmployeeForm', { 
                 department, message, 
-                role: req.session.userLogin.role, 
-                isLogin: req.session.userLogin 
+                role: "manager", 
+                isLogin: true 
             })
         })
         .catch(err => {
@@ -61,7 +62,8 @@ router.get('/leaveRequest', checkManager, (req, res) => {
     Model.EmployeeLeave.findAll({
         include: [Model.Employee, Model.Leave],
         where: {
-            DepartmentId: req.session.userLogin.DepartmentId
+            // DepartmentId: req.session.userLogin.DepartmentId
+            DepartmentId: 1
         }
     })
         .then(leaveRequestData => {
