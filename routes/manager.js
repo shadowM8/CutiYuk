@@ -12,19 +12,26 @@ router.get('/', checkManager, (req, res) => {
             role: req.session.userLogin.role
         }
     })
-        .then(manager => {
-            res.render('pages/manager/managerDashboard', { manager, role: req.session.userLogin.role, isLogin: req.session.userLogin})
+    .then(manager => {
+        res.render('pages/manager/managerDashboard', { 
+            manager, role: req.session.userLogin.role, 
+            isLogin: req.session.userLogin
         })
-        .catch(err => {
-            res.send(err)
-        })
+    })
+    .catch(err => {
+        res.send(err)
+    })
 })
 
 router.get('/addEmployee', checkManager, (req, res) => {
     Model.Department.findAll()
         .then(department => {
             let message = req.query.message
-            res.render('pages/manager/addEmployeeForm', { department, message , role: req.session.userLogin.role, isLogin: req.session.userLogin })
+            res.render('pages/manager/addEmployeeForm', { 
+                department, message, 
+                role: req.session.userLogin.role, 
+                isLogin: req.session.userLogin 
+            })
         })
         .catch(err => {
             res.send(err)
