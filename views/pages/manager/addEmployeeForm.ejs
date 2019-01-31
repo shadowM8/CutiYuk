@@ -22,6 +22,9 @@
         <% department.forEach(d=>{ %>
             <input type="radio" name="DepartmentId" value="<%= d.id %>" > <%- d.name %> <br>
         <% }) %>
+        Gender : <br>
+        <input type="radio" name="gender" value="male"> Male<br>
+        <input type="radio" name="gender" value="female"> Female<br>
         <input type="submit" value="Add New Employee" >
     </form>
     

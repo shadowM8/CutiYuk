@@ -5,7 +5,10 @@ module.exports = (sequelize, DataTypes) => {
   const Employee = sequelize.define('Employee', {
     nik: DataTypes.STRING,
     name: DataTypes.STRING,
-    password: DataTypes.STRING,
+    password: {
+      type: DataTypes.STRING,
+      defaultValue: '12345'
+    },
     role: DataTypes.STRING,
     timeOff: DataTypes.INTEGER,
     DepartmentId: DataTypes.INTEGER,
@@ -40,19 +43,15 @@ module.exports = (sequelize, DataTypes) => {
       beforeValidate : function(employee) {
         let elemen = employee.dataValues.name.split(' ')
         let random = Math.floor(Math.random() * (1000 - 100 + 1) + 100)
-        employee.dataValues.email = `${elemen[0]}${random}@mail.com`
-        return (employee.email)
+        employee.email = `${elemen[0]}${random}@mail.com`
       },
       beforeCreate : function(employee){
-        let elemen = employee.name.split(' ')
-        employee.dataValues.password = `pass${elemen[0]}`
-        console.log(employee.dataValues.password)
         return bcryptHash(employee.password)
             .then(hash=>{
               employee.password = hash
             })
             .catch(err=>{
-              console.log(err)
+              throw err
             })
       }
     }
