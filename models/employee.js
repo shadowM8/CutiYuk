@@ -49,12 +49,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       beforeCreate : function(employee){
         return bcryptHash(employee.password)
-            .then(hash=>{
-              employee.password = hash
-            })
-            .catch(err=>{
-              throw err
-            })
+        .then(hash=>{
+          employee.password = hash
+        })
+        .catch(err=>{
+          throw err
+        })
       }
     }
   });

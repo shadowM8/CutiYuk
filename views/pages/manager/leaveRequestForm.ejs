@@ -30,10 +30,8 @@
             <th><%- leaveData.reason %></th>
         </tr>
             <form action="/manager/leaveRequest/<%= leaveData.id %>" method="POST">
-
                 <td><input type="radio" name="status" value="Approved" >  Approved</td>
                 <td><input type="radio" name="status" value="Declined" >  Declined</td>
-
         </tr>
         <tr>
             <td><input type="submit" value="Submit"></td>
@@ -42,6 +40,9 @@
         </form>
         
     </table>
+    <br>
+    <h5 style="color:red"><%= err %></h5>
+    <br>
     <h2>Leave Record of Employee <%- employeeData.name %></h2>
     <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button"
                     aria-expanded="false" aria-controls="multiCollapseExample1">Chart View</a>
