@@ -19,9 +19,11 @@
   "homepage": "https://github.com/shadowM8/CutiYuk#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "chart.js": "^2.7.3",
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "nexmo": "^2.4.0",
     "pg": "^7.8.0",
     "sequelize": "^4.42.0",
