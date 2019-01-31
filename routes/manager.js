@@ -5,7 +5,7 @@ const Nexmo = require('nexmo');
 const dotenv = require('dotenv').config()
 const checkManager = require('../helpers/checkManager')
 
-router.get('/', checkManager, (req, res) => {
+router.get('/', (req, res) => {
     Employee.findOne({
         where: {
             id: req.session.userLogin.id,
