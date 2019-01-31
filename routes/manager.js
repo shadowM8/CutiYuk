@@ -49,11 +49,12 @@ router.post('/addEmployee', checkManager, (req, res) => {
     })
 })
 
-router.get('/leaveRequest', checkManager, (req, res) => {
+router.get('/leaveRequest', (req, res) => {
     Model.EmployeeLeave.findAll({
         include : [Model.Employee, Model.Leave],
         where: {
             // nanti employeeId manager dan DepartmentId manager dari session
+            // DepartmentId: req.session.userLogin.DepartmentId
             DepartmentId: 1
         }
     })
@@ -65,9 +66,9 @@ router.get('/leaveRequest', checkManager, (req, res) => {
         })
 })
 
-router.get('/leaveRequest/:id', checkManager, (req, res) => {
+router.get('/leaveRequest/:conjunctionId', (req, res) => {
     let leaveData = null
-    Model.EmployeeLeave.findByPk(req.params.id)
+    Model.EmployeeLeave.findByPk(req.params.conjunctionId)
         .then(leaveReasonData => {
             leaveData = leaveReasonData
             return leaveReasonData.getEmployee() 
@@ -78,6 +79,42 @@ router.get('/leaveRequest/:id', checkManager, (req, res) => {
         .catch(err => {
             res.send(err)
         })
+})
+
+router.post('/leaveRequest/:conjunctionId', (req, res) => {
+    let duration = 0
+    Model.EmployeeLeave.update(req.body, {
+        where: {
+            id: req.params.conjunctionId
+        }
+    })
+    .then(() => {
+        //KIRIM SMS DI SINI
+        return Model.EmployeeLeave.findByPk(req.params.conjunctionId)
+    })
+    .then(employeeAskForLeave => {
+        if (employeeAskForLeave.status === 'Approved' && employeeAskForLeave.LeaveId === 2) {
+            duration = employeeAskForLeave.duration
+        }
+        return Employee.findByPk(employeeAskForLeave.EmployeeId)
+    })
+    .then(employeeData => {
+        let timeOffLeft = employeeData.timeOff - duration
+        Employee.update({
+            timeOff: timeOffLeft
+        }, {
+            where: {
+                id: employeeData.id
+            },
+            hooks: false
+        })
+    })
+    .then(() => {
+        res.redirect('/manager/leaveRequest')
+    })
+    .catch(err => {
+        res.send(err)
+    })
 })
 
 // router.get('/chart',(req,res)=>{
