@@ -6,8 +6,8 @@ const Middleware = require('../helpers/middleware')
 const Nexmo = require('nexmo')
 const Employee = Model.Employee
 
-router.get('/', (req, res) => {
-    res.send('dashboard employee')
+router.get('/',Middleware, (req, res) => {
+    res.render('pages/employees/dashBoard',{role : req.session.userLogin.role})
 })
 
 router.get('/profile', Middleware, (req, res) => {
@@ -16,7 +16,8 @@ router.get('/profile', Middleware, (req, res) => {
         let dateConverted = employee.convertDate(employee.createdAt)
         res.render('pages/employees/profile', {
             employee: employee,
-            convertDate: dateConverted
+            convertDate: dateConverted,
+            role : req.session.userLogin.role
         })
     })
     .catch(err => {
@@ -28,7 +29,8 @@ router.get('/profile/edit', Middleware, (req, res) => {
     Employee.findByPk(req.session.userLogin.id)
     .then(employee => {
         res.render('pages/employees/editProfile', {
-            employee: employee
+            employee: employee,
+            role : req.session.userLogin.role
         })
     })
     .catch(err => {
@@ -39,7 +41,8 @@ router.get('/profile/edit', Middleware, (req, res) => {
 router.post('/profile/edit', Middleware, (req, res) => {
     Employee.update(req.body, {
         where: {
-            id: req.session.userLogin.id
+            id: req.session.userLogin.id,
+            role : req.session.userLogin.role
         }
     })
     .then(update => {
@@ -75,7 +78,8 @@ router.get('/requestLeave', Middleware, (req, res) => {
         res.render('pages/employees/requestLeave', {
             types: leaveReasons,
             department: dep,
-            names: employeesName
+            names: employeesName,
+            role : req.session.userLogin.role
         })
     })
     .catch(err => {

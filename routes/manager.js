@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const Model = require('../models')
 const Employee = Model.Employee
+const Nexmo = require('nexmo');
 const dotenv = require('dotenv').config()
 const checkManager = require('../helpers/checkManager')
 
@@ -23,7 +24,7 @@ router.get('/addEmployee', checkManager, (req, res) => {
     Model.Department.findAll()
         .then(department => {
             let message = req.query.message
-            res.render('pages/manager/addEmployeeForm', { department, message })
+            res.render('pages/manager/addEmployeeForm', { department, message , role: req.session.userLogin.role })
         })
         .catch(err => {
             res.send(err)
@@ -40,18 +41,18 @@ router.post('/addEmployee', checkManager, (req, res) => {
         timeOff: 12,
         gender: newEmployee.gender
     })
-    .then(() => {
-        let msg = `success add new Employee`
-        res.redirect(`/manager/addEmployee/?message=${msg}`)
-    })
-    .catch(err => {
-        res.redirect(`/manager/addEmployee/?message=${err}`)
-    })
+        .then(() => {
+            let msg = `success add new Employee`
+            res.redirect(`/manager/addEmployee/?message=${msg}`)
+        })
+        .catch(err => {
+            res.redirect(`/manager/addEmployee/?message=${err}`)
+        })
 })
 
 router.get('/leaveRequest', (req, res) => {
     Model.EmployeeLeave.findAll({
-        include : [Model.Employee, Model.Leave],
+        include: [Model.Employee, Model.Leave],
         where: {
             // nanti employeeId manager dan DepartmentId manager dari session
             // DepartmentId: req.session.userLogin.DepartmentId
@@ -59,7 +60,7 @@ router.get('/leaveRequest', (req, res) => {
         }
     })
         .then(leaveRequestData => {
-            res.render('pages/manager/leaveRequestPage', { leaveRequestData })
+            res.render('pages/manager/leaveRequestPage', { leaveRequestData , role: req.session.userLogin.role })
         })
         .catch(err => {
             res.send(err)
@@ -128,7 +129,17 @@ router.post('/leaveRequest/:conjunctionId', (req, res) => {
         }
     })
     .then(() => {
-        //KIRIM SMS DI SINI
+        const nexmo = new Nexmo({
+            apiKey: '81b11d18',
+            apiSecret: '0kKeqVbp1mcZOWoI'
+        })
+
+        const from = 'Nexmo'
+        const to = '628156615006'
+        const text = `Your leave request has been approved by ${req.session.userLogin.name} - CutiYuk`
+
+        nexmo.message.sendSms(from, to, text)
+
         if (timeOffRequested.status === 'Approved' && timeOffRequested.LeaveId === 2) {
             duration = timeOffRequested.duration
         }
