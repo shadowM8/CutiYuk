@@ -45,7 +45,7 @@ module.exports = {
       updatedAt: new Date(),
       email: 'aditya_H@yahu.com',
       gender: 'male'
-    }], {})
+    }], {individualHooks : true})
   },
 
   down: (queryInterface, Sequelize) => {
