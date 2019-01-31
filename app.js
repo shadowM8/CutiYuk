@@ -13,6 +13,16 @@ app.use(session({
   secret: process.env.secretsauce
 }))
 
+app.get('/getAllEmployees', (req, res) => {
+    Model.Employee.findAll()
+    .then(allEmployees => {
+        res.send(allEmployees)
+    })
+    .catch(err => {
+        res.send(err)
+    })
+})
+
 app.get('/addEmployee', (req,res)=>{
         Model.Department.findAll()
             .then(department => {
