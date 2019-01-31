@@ -53,7 +53,7 @@
 </div>
 <script >
         var ctx = document.getElementById("myChart").getContext('2d');
-        var list = <%- JSON.stringify(y) %>;
+        var list = "<%-y %>".split(',')
         var myChart = new Chart(ctx, {
             type: 'pie',
             data: {
