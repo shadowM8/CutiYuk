@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Profile Lookup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include("../../partials/bootstrapLink.ejs") %>
+</head>
+<body>
+        <%- include("../../partials/navbarGeneral.ejs") %>
+    <div class="container">
+        <h1>EMPLOYEE PROFILE</h1>
+    <hr>
+    <h5><a href="/employee/profile/edit">Edit Profile</a></h5>
+    <br>
+    <table border="1" width="100%">
+        <tr>
+            <th>NIK</th>
+            <td><%= employee.nik %></td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td><%= employee.name %></td>
+        </tr>
+        <tr>
+            <th>Gender</th>
+            <td><%= employee.gender %></td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td><%= employee.email %></td>            
+        </tr>
+        <tr>
+            <th>Role</th>
+            <td><%= employee.role %></td>
+        </tr>
+        <tr>
+            <th>Leave Quota</th>
+            <td><%= employee.timeOff %></td>
+        </tr>
+        <tr>
+            <th>Registered</th>
+            <td> <%= convertDate %></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <%- include("../../partials/bootstrapLink.ejs") %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <style>
+        .wrapper {
+            max-width: 500px;
+            
+            margin:50px auto;
+        }
+    </style>
+    <title>Leave Request</title>
+</head>
+
+<body>
+    <div class="container">
+    <h2>Leave Request <%- employeeData.name %> </h2>
+    <table class="table table-striped">
+        <tr>
+            <th>Name :</th>
+            <td><%- employeeData.name %> </th>
+        </tr>
+        <tr>
+                <th>Reason :</th>
+            <td><%- leaveData.reason %></th>
+        </tr>
+            <form action="/manager/leaveRequest/<%= leaveData.id %>" method="POST">
+                <th> Decision : </th>
+                <td><input type="radio" name="status" value="Approved" >  Approved
+                <input type="radio" name="status" value="Declined" >  Declined</td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Submit"></td>
+        </tr>
+            
+        </form>
+        
+    </table>
+    <br>
+    <h5 style="color:red"><%= err %></h5>
+    <br>
+    <h2>Leave Record of Employee <%- employeeData.name %></h2>
+    <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button"
+                    aria-expanded="false" aria-controls="multiCollapseExample1">Chart View</a>
+    <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="chart-container container" style="position: relative; height:20vh; width:40vw">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+</div>
+<script >
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var list = "<%-y %>".split(',')
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: <%- JSON.stringify(x) %>,
+                datasets: [
+                    {
+                    label: '# of leaves',
+                    data: list,
+                    backgroundColor: [ //ujung puncak
+                        'rgba(211, 163, 250, 0.2)',
+                        'rgba(47, 244, 53, 0.2)',
+                        'rgba(244, 172, 47, 0.2)',
+                        'rgba(47, 237, 244, 0.2)'
+                    ],
+                    borderColor: [ //garis
+                        'rgba(211, 163, 250, 1)',
+                        'rgba(47, 244, 53, 1)',
+                        'rgba(244, 172, 47, 1)',
+                        'rgba(47, 237, 244, 1)'
+                    ],
+                    borderWidth: 1,
+                    fill : true
+                }
+            ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+        
+        </script>
+</body>
+<%- include("../../partials/bootstrapScript.ejs") %>
+
+</html>

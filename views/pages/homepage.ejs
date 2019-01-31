@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <%- include("../partials/bootstrapLink.ejs") %>
+    <title>Dashboard</title>
+</head>
+<body>
+    <%- include("../partials/navbarGeneral.ejs") %>
+    <div class="container">
+    <h5 style="color:red"><%= err %></h5>
+    <h1>CutiYuk App</h1>
+       <h3 style="color:greenyellow"><%- logout %></h3> 
+
+    <h2>Silahkan Login terlebih dahulu</h2>
+    <button onclick="location.href = '/login'" style="width:auto;">Login</button>
+    
+    </div>
+    
+</body>
+<%- include("../partials/bootstrapScript.ejs") %>
+</html>

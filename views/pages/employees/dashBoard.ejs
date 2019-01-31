@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <%- include("../../partials/bootstrapLink.ejs") %>
+    <title>Employee Dashboard</title>
+</head>
+<body>
+    <%- include("../../partials/navbarGeneral.ejs") %>
+    <div class="container">
+    <h1>Selamat datang <%- lastName %> ! </h1>
+    <h2>Apa yang ingin anda lakukan hari ini?</h2> <br>
+    <h4><a href="/employee/requestLeave">Ingin mengajukan cuti!</a></h4>
+    
+    </div>
+    
+</body>
+<%- include("../../partials/bootstrapScript.ejs") %>
+</html>

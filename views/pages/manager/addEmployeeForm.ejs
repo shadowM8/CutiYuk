@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <%- include("../../partials/bootstrapLink.ejs") %>
+    <title>Add new Employee</title>
+</head>
+<body>
+        <%- include("../../partials/navbarGeneral.ejs") %>
+    <% if(message) { %>
+        <h2> <%- message %> </h2>
+    <% } %>
+    <div class="container">
+    <h2>Add New Employee</h2>
+    <form action="/manager/addEmployee" method="POST">
+        NIK : <br>
+        <input type="text" name="nik" placeholder="input NIK pegawai baru" required > <br>
+        Name : <br>
+        <input type="text" name="name" placeholder="input nama pegawai baru" required> <br>
+        Role : <br>
+        <input type="text" name="role" placeholder="input role" required> <br>
+        Departemen : <br>
+        <% department.forEach(d=>{ %>
+            <input type="radio" name="DepartmentId" value="<%= d.id %>" > <%- d.name %> <br>
+        <% }) %>
+        Gender : <br>
+        <input type="radio" name="gender" value="male"> Male<br>
+        <input type="radio" name="gender" value="female"> Female<br>
+        <input type="submit" value="Add New Employee" >
+    </form>
+</div>
+</body>
+</html>

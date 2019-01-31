@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <style>
+        .wrapper {
+            max-width: 300px;
+            
+            margin:50px auto;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <h1> tes</h1>
+    
+    <div class="wrapper">
+            <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+    
+    <script >
+            
+        var ctx = document.getElementById("myChart");
+        // var z = <%= JSON.stringify(angka) %>
+        var z = [1,2,3,4]
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Purple", "Green", "Yellow", "Blue"],
+                datasets: [
+                    {
+                    label: '# of Votes',
+                    data: z,
+                    backgroundColor: [ //ujung puncak
+                        'rgba(211, 163, 250, 0.2)',
+                        'rgba(47, 244, 53, 0.2)',
+                        'rgba(244, 172, 47, 0.2)',
+                        'rgba(47, 237, 244, 0.2)'
+                    ],
+                    borderColor: [ //garis
+                        'rgba(211, 163, 250, 1)',
+                        'rgba(47, 244, 53, 1)',
+                        'rgba(244, 172, 47, 1)',
+                        'rgba(47, 237, 244, 1)'
+                    ],
+                    borderWidth: 1,
+                    fill : true
+                }
+            ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+        // myChart.data.datasets[0].data.push(angka)
+        </script>
+    
+</body>
+</html>
+
