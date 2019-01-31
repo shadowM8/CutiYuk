@@ -4,6 +4,7 @@ const Model = require('./models')
 const dotenv = require('dotenv').config()
 const bcrypt = require('bcryptjs')
 const session = require('express-session')
+const isLoggedIn = require('./helpers/isLoggedIn')
 const employee = require('./routes/employee')
 const manager = require('./routes/manager')
 app.set('view engine', 'ejs')
@@ -16,7 +17,8 @@ app.use(session({
 app.get('/login', (req, res) => {
     let err = req.query.err
     res.render('pages/employees/login', {
-        err: err
+        err: err,
+        isLogin: req.session.userLogin
     })
 })
 
@@ -48,7 +50,6 @@ app.post('/login', (req, res) => {
                 gender: emp.gender,
                 createdAt: emp.createdAt
             }
-            // res.send(req.session)
             if (emp.role === 'manager') res.redirect('/manager/')
             else res.redirect('/employee')
         }
@@ -66,10 +67,10 @@ app.get('/', (req, res) => {
     let err = req.query.err
     res.render('pages/homepage', {
         err: err,
-        role : null
+        role : null,
+        isLogin: req.session.isLogin
     })
 })
-
 
 app.get('/session', (req, res) => {
     res.send(req.session)
