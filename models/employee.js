@@ -41,9 +41,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks : {
       beforeValidate : function(employee) {
-        let elemen = employee.dataValues.name.split(' ')
-        let random = Math.floor(Math.random() * (1000 - 100 + 1) + 100)
-        employee.email = `${elemen[0]}${random}@mail.com`
+        if(!employee.email){
+          let elemen = employee.dataValues.name.split(' ')
+          let random = Math.floor(Math.random() * (1000 - 100 + 1) + 100)
+          employee.email = `${elemen[0]}${random}@mail.com`
+        }
       },
       beforeCreate : function(employee){
         return bcryptHash(employee.password)

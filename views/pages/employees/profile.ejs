@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Profile Lookup</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    <%- include("../../partials/bootstrapLink.ejs") %>
 </head>
 <body>
-    <h1>EMPLOYEE PROFILE</h1>
+        <%- include("../../partials/navbarGeneral.ejs") %>
+    <div class="container">
+        <h1>EMPLOYEE PROFILE</h1>
     <hr>
     <h5><a href="/employee/profile/edit">Edit Profile</a></h5>
     <br>
@@ -47,5 +48,6 @@
             <td> <%= convertDate %></td>
         </tr>
     </table>
+</div>
 </body>
 </html>
