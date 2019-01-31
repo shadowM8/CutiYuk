@@ -49,7 +49,17 @@ router.post('/addEmployee', checkManager, (req, res) => {
         timeOff: 12,
         gender: newEmployee.gender
     })
-        .then(() => {
+        .then((newEmployee) => {
+            const nexmo = new Nexmo({
+                apiKey: process.env.APIKEYfromManager,
+                apiSecret: process.env.APISECRETfromManager
+            })
+    
+            const from = 'Nexmo'
+            const to = '628156615006'
+            const text = `Your Account at CutiYuk App has been created, your email is ${newEmployee.email} and password is 12345. Please update your password for better security - CutiYuk`
+    
+            nexmo.message.sendSms(from, to, text)
             let msg = `success add new Employee`
             res.redirect(`/manager/addEmployee/?message=${msg}`)
         })
