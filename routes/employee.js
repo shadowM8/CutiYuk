@@ -25,7 +25,7 @@ router.get('/profile', Middleware, (req, res) => {
 })
 
 router.get('/profile/edit', Middleware, (req, res) => {
-    Employee.findByPk(c)
+    Employee.findByPk(req.session.userLogin.id)
     .then(employee => {
         res.render('pages/employees/editProfile', {
             employee: employee
