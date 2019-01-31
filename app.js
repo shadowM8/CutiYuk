@@ -68,7 +68,8 @@ app.get('/', (req, res) => {
     res.render('pages/homepage', {
         err: err,
         role : null,
-        isLogin: req.session.isLogin
+        isLogin: req.session.isLogin,
+        logout : req.query.logout
     })
 })
 
@@ -81,7 +82,7 @@ app.get('/logout', (req, res) => {
         if (err) {
             res.send(err)    
         } else {
-            res.send('Logout Succeed')
+            res.redirect('/?logout=Logout Succeed')
         }
     })
 })

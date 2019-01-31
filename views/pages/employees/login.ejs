@@ -3,13 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Login Page</title>
+    <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%- include('../../partials/bootstrapLink') %>
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    <%- include("../../partials/bootstrapLink.ejs") %>
 </head>
 <body>
+    <div class="container">
     <h1>Login Page</h1>
     <h5 style="color:red"><%= err %></h5>
     <form action="/login" method="POST">
@@ -26,5 +25,6 @@
     </form>
 
     <%- include('../../partials/bootstrapScript') %>
+</div>
 </body>
 </html>

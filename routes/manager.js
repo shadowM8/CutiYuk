@@ -77,7 +77,7 @@ router.get('/leaveRequest/:conjunctionId', checkManager, (req, res) => {
         employeeData = employee
         return employee.getEmployeeLeaves({
             where : {
-                status : "Pending"
+                status : "Approved"
             }
         })       
     })
