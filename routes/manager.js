@@ -8,7 +8,6 @@ const checkManager = require('../helpers/checkManager')
 router.get('/', checkManager, (req, res) => {
     Employee.findOne({
         where: {
-            // id: req.session.userLogin.id,
             id : req.session.userLogin.id,
             role: req.session.userLogin.role
         }
@@ -54,11 +53,11 @@ router.post('/addEmployee', checkManager, (req, res) => {
                 apiKey: process.env.APIKEYfromManager,
                 apiSecret: process.env.APISECRETfromManager
             })
-    
+
             const from = 'Nexmo'
             const to = '628156615006'
             const text = `Your Account at CutiYuk App has been created, your email is ${newEmployee.email} and password is 12345. Please update your password for better security - CutiYuk`
-    
+
             nexmo.message.sendSms(from, to, text)
             let msg = `success add new Employee`
             res.redirect(`/manager/addEmployee/?message=${msg}`)
@@ -73,7 +72,6 @@ router.get('/leaveRequest', checkManager, (req, res) => {
         include: [Model.Employee, Model.Leave],
         where: {
             DepartmentId: req.session.userLogin.DepartmentId
-            // DepartmentId: 1
         }
     })
         .then(leaveRequestData => {
@@ -160,11 +158,10 @@ router.post('/leaveRequest/:conjunctionId', checkManager, (req, res) => {
 
         nexmo.message.sendSms(from, to, text)
 
-        if (timeOffRequested.status === 'Approved' && timeOffRequested.LeaveId === 2) {
+        if (timeOffRequested.status === 'Approved' && timeOffRequested.LeaveId == 3) {
             duration = timeOffRequested.duration
         }
         let timeOffLeft = employeeData.timeOff - duration
-        // console.log(timeOffLeft)
         return Employee.update({
             timeOff: timeOffLeft }, 
             {   

@@ -23,22 +23,6 @@ app.get('/getAllEmployees', (req, res) => {
     })
 })
 
-app.get('/addEmployee', (req,res)=>{
-        Model.Department.findAll()
-            .then(department => {
-                let message = req.query.message
-                res.render('pages/manager/addEmployeeForm', { 
-                    department, message, 
-                    role: "manager", 
-                    isLogin: true 
-                })
-            })
-            .catch(err => {
-                res.send(err)
-            })
-    
-})
-
 app.get('/login', (req, res) => {
     let err = req.query.err
     res.render('pages/employees/login', {
