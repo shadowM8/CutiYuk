@@ -124,13 +124,13 @@ router.get('/leaveRequest/:conjunctionId', checkManager, (req, res) => {
 })
 
 router.post('/leaveRequest/:conjunctionId', checkManager, (req, res) => {
-    let timeOffRequested;
-    let duration = 0
+    let timeOffRequested; //conjunction data
+    let duration = 0 //duration
     let status = req.body.status
-    let employeeData;
+    let employeeData; //data employee yg request leave
     Model.EmployeeLeave.findByPk(req.params.conjunctionId)
     .then(leaveData => {
-        timeOffRequested = leaveData.duration
+        timeOffRequested = leaveData
         return leaveData.getEmployee()
     })
     .then(employee => {
@@ -138,6 +138,7 @@ router.post('/leaveRequest/:conjunctionId', checkManager, (req, res) => {
             throw `Time off request can not be taken due to employee's time off quota.`
         } else {
             employeeData = employee
+            // res.send(employeeData)
             Model.EmployeeLeave.update(req.body, {
                     where: {
                         id: req.params.conjunctionId
@@ -163,6 +164,7 @@ router.post('/leaveRequest/:conjunctionId', checkManager, (req, res) => {
             duration = timeOffRequested.duration
         }
         let timeOffLeft = employeeData.timeOff - duration
+        // console.log(timeOffLeft)
         return Employee.update({
             timeOff: timeOffLeft }, 
             {   

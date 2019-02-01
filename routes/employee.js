@@ -14,7 +14,6 @@ router.get('/',Middleware, (req, res) => {
     .catch(err=>{
         res.send(err)
     })
-    
 })
 
 router.get('/profile', Middleware, (req, res) => {
