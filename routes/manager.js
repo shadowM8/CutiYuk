@@ -136,7 +136,6 @@ router.post('/leaveRequest/:conjunctionId', checkManager, (req, res) => {
             throw `Time off request can not be taken due to employee's time off quota.`
         } else {
             employeeData = employee
-            // res.send(employeeData)
             Model.EmployeeLeave.update(req.body, {
                     where: {
                         id: req.params.conjunctionId
@@ -157,8 +156,8 @@ router.post('/leaveRequest/:conjunctionId', checkManager, (req, res) => {
         const text = `Your leave request has been approved by ${req.session.userLogin.name} - CutiYuk`
 
         nexmo.message.sendSms(from, to, text)
-
-        if (timeOffRequested.status === 'Approved' && timeOffRequested.LeaveId == 3) {
+        
+        if (status === 'Approved' && timeOffRequested.LeaveId == 3) {
             duration = timeOffRequested.duration
         }
         let timeOffLeft = employeeData.timeOff - duration
