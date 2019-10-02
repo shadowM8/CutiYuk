@@ -1,17 +1,19 @@
 {
-  "name": "CutiYuk",
+  "name": "cuti_yuk",
   "version": "1.0.0",
-  "description": "",
+  "description": "recreate pair project from phase one",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shadowM8/CutiYuk.git"
   },
-  "keywords": [],
+  "keywords": [
+    "HRD"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -24,10 +26,13 @@
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "express-enrouten": "^1.3.0",
     "express-session": "^1.15.6",
+    "lodash": "^4.17.15",
+    "nconf": "^0.10.0",
     "nexmo": "^2.4.0",
     "pg": "^7.8.0",
-    "sequelize": "^4.42.0",
-    "sequelize-cli": "^5.4.0"
+    "sequelize": "^4.44.3",
+    "sequelize-cli": "^5.5.1"
   }
 }

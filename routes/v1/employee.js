@@ -1,8 +1,8 @@
 const router = require('express').Router()
-const Model = require('../models')
+const Model = require('../../db/models')
 const dotenv = require('dotenv').config()
 const bcrypt = require('bcryptjs')
-const Middleware = require('../helpers/middleware')
+const Middleware = require('../../helpers/middleware')
 const Nexmo = require('nexmo')
 const Employee = Model.Employee
 

@@ -1,9 +1,9 @@
 const router = require('express').Router()
-const Model = require('../models')
+const Model = require('../../db/models/postgresql')
 const Employee = Model.Employee
 const Nexmo = require('nexmo');
 const dotenv = require('dotenv').config()
-const checkManager = require('../helpers/checkManager')
+const checkManager = require('../../helpers/checkManager')
 
 router.get('/', checkManager, (req, res) => {
     Employee.findOne({
