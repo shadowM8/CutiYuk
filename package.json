@@ -1,5 +1,5 @@
 {
-  "name": "CutiYuk",
+  "name": "cuti-yuk",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -25,9 +25,10 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "lodash": "^4.17.15",
     "nexmo": "^2.4.0",
     "pg": "^7.8.0",
     "sequelize": "^4.42.0",
-    "sequelize-cli": "^5.4.0"
+    "sequelize-cli": "^5.5.1"
   }
 }
