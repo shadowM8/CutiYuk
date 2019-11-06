@@ -28,7 +28,7 @@
     "lodash": "^4.17.15",
     "nexmo": "^2.4.0",
     "pg": "^7.8.0",
-    "sequelize": "^4.42.0",
+    "sequelize": "^5.15.1",
     "sequelize-cli": "^5.5.1"
   }
 }
