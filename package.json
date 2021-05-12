@@ -20,7 +20,7 @@
   "homepage": "https://github.com/shadowM8/CutiYuk#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "chart.js": "^2.7.3",
+    "chart.js": "^2.9.4",
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
